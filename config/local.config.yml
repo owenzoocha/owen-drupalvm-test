@@ -3,7 +3,7 @@
 # http://docs.drupalvm.com/en/latest/extras/syncing-folders/ for more info.
 
 # Name of your home folder ~/[this here].
-home_dir_name: owenwilliams
+home_dir_name: nameofmyhomefolder
 
 vagrant_synced_folders:
   # The first synced folder will be used for the default Drupal installation, if
