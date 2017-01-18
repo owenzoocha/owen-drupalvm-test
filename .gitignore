@@ -1,0 +1,10 @@
+# OS-specific files.
+.DS_Store
+
+# Editor and language files.
+.idea/
+.project/
+.bundle/
+
+# Vagrant files.
+.vagrant/

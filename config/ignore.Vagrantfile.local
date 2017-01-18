@@ -1,0 +1,4 @@
+config.vm.provision 'ansible' do |ansible|
+  ansible.playbook = "#{host_config_dir}/local.playbook.yml"
+  ansible.galaxy_role_file = "#{host_config_dir}/local.requirements.yml"
+end

@@ -1,0 +1,134 @@
+# If you need to run multiple instances of Drupal VM, set a unique hostname,
+# machine name, and IP address for each instance.
+vagrant_hostname: dev-server.vm
+vagrant_machine_name: dev-server
+vagrant_ip: 192.168.88.88
+
+
+# Memory and CPU to use for this VM.
+vagrant_memory: 2048
+vagrant_cpus: 2
+
+vagrant_public_ip: ""
+
+# The web server software to use. Can be either 'apache' or 'nginx'.
+drupalvm_webserver: nginx
+
+# Set this to 'true' and 'build_makefile', 'build_composer' to 'false' if you
+# are using Composer's create-project as a site deployment strategy.
+build_composer_project: false
+
+# Set this to 'false' if you don't need to install drupal (using the drupal_*
+# settings below), but instead copy down a database (e.g. using drush sql-sync).
+install_site: false
+
+drupal_core_path: "/projects/www"
+
+# Cron jobs are added to the vagrant user's crontab. Keys include name
+# (required), minute, hour, day, weekday, month, job (required), and state.
+drupalvm_cron_jobs: []
+  # - {
+  #   name: "Drupal Cron",
+  #   minute: "*/30",
+  #   job: "drush -r {{ drupal_core_path }} core-cron"
+  # }
+
+# Drupal VM automatically creates a drush alias file in your ~/.drush folder if
+# this variable is 'true'.
+configure_drush_aliases: false
+
+# Nginx hosts. Each site will get a server entry using the configuration defined
+# here. Set the 'is_php' property for document roots that contain PHP apps like
+# Drupal.
+nginx_hosts:
+  - server_name: "adminer.{{ vagrant_hostname }}"
+    root: "{{ adminer_install_dir }}"
+    is_php: true
+
+  - server_name: "xhprof.{{ vagrant_hostname }}"
+    root: "{{ php_xhprof_html_dir }}"
+    is_php: true
+
+  - server_name: "pimpmylog.{{ vagrant_hostname }}"
+    root: "{{ pimpmylog_install_dir }}"
+    is_php: true
+
+  - server_name: "{{ vagrant_ip }} dashboard.{{ vagrant_hostname }}"
+    root: "{{ dashboard_install_dir }}"
+    is_php: true
+
+  # - server_name: "km.dev"
+  #   root: "{{ drupal_core_path }}/km_tools"
+  #   is_php: true
+
+nginx_remove_default_vhost: true
+nginx_ppa_use: true
+
+# Comment out any extra utilities you don't want to install. If you don't want
+# to install *any* extras, set this value to an empty set, e.g. `[]`.
+installed_extras:
+  - adminer
+  # - blackfire
+  # - drupalconsole
+  - drush
+  # - elasticsearch
+  - java
+  - mailhog
+  - memcached
+  # - newrelic
+  # - nodejs
+  - pimpmylog
+  - redis
+  # - ruby
+  # - selenium
+  - solr
+  - upload-progress
+  # - varnish
+  - xdebug
+  - xhprof
+
+# Add any extra apt or yum packages you would like installed.
+extra_packages:
+  - sqlite
+
+php_memory_limit: "1024M"
+
+# You can configure almost anything else on the server in the rest of this file.
+extra_security_enabled: false
+
+firewall_allowed_tcp_ports:
+  - "22"
+  - "25"
+  - "80"
+  - "81"
+  - "443"
+  - "4444"
+  - "8025"
+  - "8080"
+  - "8443"
+  - "8983"
+firewall_log_dropped_packets: false
+
+# Run specified scripts before or after VM is provisioned. Path is relative to
+# the `provisioning/playbook.yml` file.
+pre_provision_scripts: []
+post_provision_scripts:
+   # - "../../scripts/ofsted-solr.sh"
+   # - "../../scripts/vbmc-solr.sh"
+   - "../../scripts/drush-aliases.sh"
+   - "../../scripts/tweaks.sh"
+
+# MySQL Configuration.
+mysql_root_password: p4ss
+
+solr_version: "5.5.2"
+
+# XDebug configuration. XDebug is disabled by default for better performance.
+php_xdebug_default_enable: 1
+php_xdebug_coverage_enable: 1
+php_xdebug_cli_enable: 1
+php_xdebug_remote_enable: 1
+php_xdebug_remote_connect_back: 1
+# Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
+php_xdebug_idekey: PHPSTORM
+php_xdebug_max_nesting_level: 256

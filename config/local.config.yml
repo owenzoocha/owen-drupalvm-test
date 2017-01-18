@@ -1,0 +1,19 @@
+# A list of synced folders, with the keys 'local_path', 'destination', and
+# a 'type' of [nfs|rsync|smb] (leave empty for slow native shares). See
+# http://docs.drupalvm.com/en/latest/extras/syncing-folders/ for more info.
+
+# Name of your home folder ~/[this here].
+home_dir_name: owenwilliams
+
+vagrant_synced_folders:
+  # The first synced folder will be used for the default Drupal installation, if
+  # any of the build_* settings are 'true'. By default the folder is set to
+  # the drupal-vm folder.
+  - local_path: "/Users/{{ home_dir_name }}/vmdev"
+    destination: /projects
+    type: nfs
+    create: true
+  # - local_path: "/Users/{{ home_dir_name }}/projects/dev-server/drush"
+  #   destination: /home/vagrant/dev-server/drush
+  #   type: nfs
+  #   create: true
